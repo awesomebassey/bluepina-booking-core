@@ -1,12 +1,14 @@
 import type { Handler } from "@netlify/functions";
 import serverless from "serverless-http";
 import { NestFactory } from "@nestjs/core";
-import { AppModule } from "../../src/app.module";
+import { AppModule } from "../../dist/src/app.module.js";
 
 let cachedHandler: Handler | undefined;
 
 async function bootstrap(): Promise<Handler> {
   const app = await NestFactory.create(AppModule);
+
+  app.setGlobalPrefix("api/v1");
 
   app.enableCors({
     origin: true,
