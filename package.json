@@ -9,5 +9,10 @@
     "db:generate": "pnpm --filter @bluepina/api prisma:generate",
     "db:migrate": "pnpm --filter @bluepina/api prisma:migrate",
     "db:seed": "pnpm --filter @bluepina/api prisma:seed"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "7.10.0",
+    "@prisma/client": "7.10.0",
+    "pg": "^8.23.0"
   }
 }

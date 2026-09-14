@@ -6,7 +6,17 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    dependencies:
+      '@prisma/adapter-pg':
+        specifier: 7.10.0
+        version: 7.10.0
+      '@prisma/client':
+        specifier: 7.10.0
+        version: 7.10.0(prisma@7.10.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(magicast@0.5.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2))(typescript@7.0.2)
+      pg:
+        specifier: ^8.23.0
+        version: 8.23.0
 
   apps/api:
     dependencies:
@@ -4814,6 +4824,13 @@ snapshots:
       prisma: 7.10.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(magicast@0.5.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)
       typescript: 6.0.3
 
+  '@prisma/client@7.10.0(prisma@7.10.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(magicast@0.5.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2))(typescript@7.0.2)':
+    dependencies:
+      '@prisma/client-runtime-utils': 7.10.0
+    optionalDependencies:
+      prisma: 7.10.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(magicast@0.5.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)
+      typescript: 7.0.2
+
   '@prisma/config@7.10.0(magicast@0.5.5)':
     dependencies:
       c12: 3.3.4(magicast@0.5.5)
@@ -4846,6 +4863,27 @@ snapshots:
       zeptomatch: 2.1.0
     transitivePeerDependencies:
       - typescript
+
+  '@prisma/dev@0.24.17(typescript@7.0.2)':
+    dependencies:
+      '@electric-sql/pglite': 0.4.3
+      '@electric-sql/pglite-socket': 0.1.3(@electric-sql/pglite@0.4.3)
+      '@electric-sql/pglite-tools': 0.3.3(@electric-sql/pglite@0.4.3)
+      '@prisma/get-platform': 7.2.0
+      '@prisma/query-plan-executor': 7.2.0
+      '@prisma/streams-local': 0.1.11
+      find-my-way: 9.7.0
+      foreground-child: 3.3.1
+      get-port-please: 3.2.0
+      pathe: 2.0.3
+      proper-lockfile: 4.1.2
+      remeda: 2.33.4
+      std-env: 3.10.0
+      valibot: 1.4.2(typescript@7.0.2)
+      zeptomatch: 2.1.0
+    transitivePeerDependencies:
+      - typescript
+    optional: true
 
   '@prisma/driver-adapter-utils@7.10.0':
     dependencies:
@@ -7027,6 +7065,24 @@ snapshots:
       - react
       - react-dom
 
+  prisma@7.10.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(magicast@0.5.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2):
+    dependencies:
+      '@prisma/config': 7.10.0(magicast@0.5.5)
+      '@prisma/dev': 0.24.17(typescript@7.0.2)
+      '@prisma/engines': 7.10.0
+      '@prisma/studio-core': 0.33.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      mysql2: 3.15.3
+      postgres: 3.4.7
+    optionalDependencies:
+      typescript: 7.0.2
+    transitivePeerDependencies:
+      - '@types/react'
+      - '@types/react-dom'
+      - magicast
+      - react
+      - react-dom
+    optional: true
+
   proper-lockfile@4.1.2:
     dependencies:
       graceful-fs: 4.2.11
@@ -7553,6 +7609,11 @@ snapshots:
   valibot@1.4.2(typescript@6.0.3):
     optionalDependencies:
       typescript: 6.0.3
+
+  valibot@1.4.2(typescript@7.0.2):
+    optionalDependencies:
+      typescript: 7.0.2
+    optional: true
 
   validator@13.15.35: {}
 
