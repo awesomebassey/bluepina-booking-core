@@ -1,0 +1,13 @@
+{
+  "name": "bluepina-proof-of-work",
+  "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "dev": "pnpm --parallel --filter @bluepina/api --filter @bluepina/web dev",
+    "build": "pnpm -r build",
+    "test": "pnpm --filter @bluepina/api test",
+    "db:generate": "pnpm --filter @bluepina/api prisma:generate",
+    "db:migrate": "pnpm --filter @bluepina/api prisma:migrate",
+    "db:seed": "pnpm --filter @bluepina/api prisma:seed"
+  }
+}

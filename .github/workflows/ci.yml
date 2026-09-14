@@ -1,0 +1,37 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: bluepina
+          POSTGRES_PASSWORD: bluepina
+          POSTGRES_DB: bluepina
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U bluepina"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://bluepina:bluepina@localhost:5432/bluepina?schema=public
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile=false
+      - run: pnpm --filter @bluepina/api prisma:generate
+      - run: pnpm --filter @bluepina/api exec prisma db push
+      - run: pnpm build
+      - run: pnpm test

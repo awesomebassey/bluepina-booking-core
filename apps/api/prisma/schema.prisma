@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PropertyStatus {
+  DRAFT
+  ACTIVE
+}
+
+enum HoldStatus {
+  ACTIVE
+  BOOKING_CREATED
+  CONVERTED
+  EXPIRED
+  CANCELLED
+}
+
+enum BookingStatus {
+  PENDING_PAYMENT
+  CONFIRMED
+  PAYMENT_FAILED
+  CANCELLED
+}
+
+enum BlockSource {
+  HOLD
+  EXTERNAL_CALENDAR
+  HOST
+}
+
+model Property {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  timezone    String   @default("UTC")
+  status      PropertyStatus @default(DRAFT)
+  createdAt   DateTime @default(now())
+  units       Unit[]
+  calendars   CalendarConnection[]
+}
+
+model Unit {
+  id               String   @id @default(cuid())
+  propertyId       String
+  property         Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  name             String
+  capacity         Int
+  nightlyRateCents Int
+  currency         String   @default("USD")
+  createdAt        DateTime @default(now())
+  holds            ReservationHold[]
+  bookings         Booking[]
+  blocks           ReservationBlock[]
+}
+
+model ReservationHold {
+  id             String   @id @default(cuid())
+  unitId         String
+  unit           Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  checkIn        DateTime @db.Date
+  checkOut       DateTime @db.Date
+  expiresAt      DateTime
+  idempotencyKey String   @unique
+  status         HoldStatus @default(ACTIVE)
+  createdAt      DateTime @default(now())
+  booking        Booking?
+  blocks         ReservationBlock[]
+
+  @@index([unitId, checkIn, checkOut])
+  @@index([status, expiresAt])
+}
+
+model ReservationBlock {
+  id          String   @id @default(cuid())
+  unitId      String
+  unit        Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  date        DateTime @db.Date
+  source      BlockSource
+  holdId      String?
+  hold        ReservationHold? @relation(fields: [holdId], references: [id], onDelete: Cascade)
+  externalRef String?
+  createdAt   DateTime @default(now())
+
+  @@unique([unitId, date])
+  @@index([externalRef])
+}
+
+model Booking {
+  id               String   @id @default(cuid())
+  holdId           String   @unique
+  hold             ReservationHold @relation(fields: [holdId], references: [id])
+  unitId           String
+  unit             Unit     @relation(fields: [unitId], references: [id])
+  guestName        String
+  guestEmail       String
+  totalAmountCents Int
+  currency         String
+  status           BookingStatus @default(PENDING_PAYMENT)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  paymentEvents    PaymentEvent[]
+}
+
+model PaymentEvent {
+  id          String   @id @default(cuid())
+  eventId     String   @unique
+  bookingId   String
+  booking     Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  providerRef String
+  status      String
+  payload     Json?
+  processedAt DateTime @default(now())
+}
+
+model CalendarConnection {
+  id                 String   @id @default(cuid())
+  propertyId         String
+  property           Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  provider           String
+  externalCalendarId String
+  createdAt          DateTime @default(now())
+
+  @@unique([provider, externalCalendarId])
+}
+
+model AuditEvent {
+  id         String   @id @default(cuid())
+  entityType String
+  entityId   String
+  action     String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId, createdAt])
+}
