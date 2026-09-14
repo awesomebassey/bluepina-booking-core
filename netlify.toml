@@ -1,10 +1,15 @@
 [functions]
   directory = "apps/api/netlify/functions"
   node_bundler = "esbuild"
+
   external_node_modules = [
     "@prisma/client",
     "@prisma/adapter-pg",
     "pg"
+  ]
+
+  included_files = [
+    "node_modules/@prisma/client/runtime/**"
   ]
 
 [[redirects]]
