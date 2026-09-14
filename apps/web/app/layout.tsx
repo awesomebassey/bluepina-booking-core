@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { Newsreader } from "next/font/google";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Bluepina Booking Core | Proof of Work",
@@ -30,7 +31,10 @@ export default function RootLayout({
             <Link href="/architecture">Architecture</Link>
           </nav>
         </header>
-        <main>{children}</main>
+        <main>
+          {children}
+          <Toaster position="top-right" richColors closeButton />
+        </main>
         <footer>
           Independent proof-of-work project built for the Bluepina
           founding-engineer application.

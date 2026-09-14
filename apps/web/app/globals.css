@@ -151,7 +151,7 @@ label {
   font-size: 13px;
   font-weight: 750;
 }
-input {
+input, select {
   width: 100%;
   padding: 13px 14px;
   border: 1px solid #cfd3cc;
@@ -159,7 +159,7 @@ input {
   font: inherit;
   outline: none;
 }
-input:focus {
+input:focus, select:focus {
   border-color: #52645b;
 }
 .terminal {
