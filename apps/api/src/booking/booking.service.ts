@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
-import { BookingStatus, HoldStatus, Prisma } from "@prisma/client";
+import { BookingStatus, HoldStatus, Prisma } from "../generated/prisma/client";
 import { PrismaService } from "../prisma/prisma.service";
 import { CreateBookingDto, CreateHoldDto, PaymentWebhookDto } from "./booking.dto";
 
